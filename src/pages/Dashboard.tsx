@@ -26,6 +26,7 @@ export default function Dashboard() {
             deleteUserAccount();
             redirect("/");
             activateAlert("Account have been deleted", "green");
+            deactivateModal();
         } catch {
             activateAlert("An unexpected error has occured", "red");
         }
@@ -44,11 +45,11 @@ export default function Dashboard() {
   }
 
   function onDeleteHandler() {
-    activateModal("Are you sure you want to delete your account? This action is permanent.");
+    activateModal("Are you sure you want to delete your account? This action is permanent.", deleteAuthUser);
   }
 
   function onLogoutHandler() {
-    activateModal("Are you sure you want to logout?");
+    activateModal("Are you sure you want to logout?", logoutUser);
   }
 
   return (

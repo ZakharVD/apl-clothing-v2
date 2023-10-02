@@ -6,18 +6,21 @@ type ModalProviderProps = {
 type TModalContext = {
     modalMessage: string;
     showModal: boolean;
-    activateModal: (message: string) => void;
+    activateModal: (message: string, callbackFn: () => void) => void;
     deactivateModal: () => void;
+    callbackFn: () => void;
 }
 type TState = {
   showModal: boolean;
   modalMessage: string;
+  callbackFn: () => void;
 };
 type TAction =
   | {
       type: "ACTIVATE";
       payload: {
         message: string;
+        callbackFn: () => void;
       };
     }
   | {
@@ -27,6 +30,7 @@ type TAction =
 const INITIAL_STATE = {
   showModal: false,
   modalMessage: "",
+  callbackFn: () => {},
 };
 
 function modalReducer(state: TState, action: TAction) {
@@ -36,6 +40,7 @@ function modalReducer(state: TState, action: TAction) {
         ...state,
         showModal: true,
         modalMessage: action.payload.message,
+        callbackFn: action.payload.callbackFn,
       };
     case "DEACTIVATE":
       return {
@@ -51,15 +56,15 @@ export const ModalContext = createContext<TModalContext>({} as TModalContext);
 
 export function ModalProvider({ children }: ModalProviderProps) {
     const [state, dispatch] = useReducer(modalReducer, INITIAL_STATE);
-    const {showModal, modalMessage} = state;
+    const {showModal, modalMessage, callbackFn } = state;
 
-    function activateModal(message: string) {
-        dispatch({type: "ACTIVATE", payload: { message: message}});
+    function activateModal(message: string, callback: () => void) {
+        dispatch({type: "ACTIVATE", payload: { message: message, callbackFn: callback}});
     }
     function deactivateModal() {
       dispatch({type: "DEACTIVATE"});
     }
 
 
-  return <ModalContext.Provider value={{activateModal, deactivateModal, showModal, modalMessage}}>{children}</ModalContext.Provider>;
+  return <ModalContext.Provider value={{activateModal, deactivateModal, showModal, modalMessage, callbackFn}}>{children}</ModalContext.Provider>;
 }

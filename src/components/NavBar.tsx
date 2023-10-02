@@ -38,7 +38,7 @@ export default function NavBar() {
   }
 
   function onLogoutHandler() {
-    activateModal("Are you sure you want to logout?");
+    activateModal("Are you sure you want to logout?", logoutUser);
   }
 
   function onFavoriteHandler() {
@@ -54,7 +54,7 @@ export default function NavBar() {
 
   return (
     <>
-    <ModalWindow onConfirmHandler={logoutUser}/>
+    <ModalWindow/>
       <nav className="mx-8 sm:mx-16 lg:mx-[180px] my-[24px] max-w-[1800px]">
         <div className="flex flex-row justify-between">
           <Link to="/" className="font-logo text-4xl">

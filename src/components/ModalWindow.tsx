@@ -1,14 +1,11 @@
 import { createPortal } from "react-dom";
 import { useModal } from "../hooks/useModal";
 
-type ModalWindowProps = {
-    onConfirmHandler?: () => void;
-}
 
-export default function ModalWindow({onConfirmHandler}: ModalWindowProps) {
-  const { showModal, modalMessage, deactivateModal } = useModal();
+export default function ModalWindow() {
+  const { showModal, modalMessage, deactivateModal, callbackFn } = useModal();
 
-  console.log("function to be done",onConfirmHandler);
+  console.log("function to be done",callbackFn);
 
   function onCancelHandler() {
     return deactivateModal();
@@ -24,7 +21,7 @@ export default function ModalWindow({onConfirmHandler}: ModalWindowProps) {
                 <span className="text-center font-medium text-md">{modalMessage}</span>
             </div>
             <div className="h-1/2 flex flex-col justify-between">
-                <button onClick={onConfirmHandler} className="w-full bg-black hover:bg-stone-800 text-white p-3 rounded-xl">Confirm</button>
+                <button onClick={callbackFn} className="w-full bg-black hover:bg-stone-800 text-white p-3 rounded-xl">Confirm</button>
                 <button onClick={onCancelHandler} className="w-full border-[1px] hover:border-black rounded-xl p-3">Cancel</button>
             </div>
           </div>
