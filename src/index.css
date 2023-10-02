@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  height: 100vh;
+}
+section {
+  height: 100vh;
+  min-height: 90vh;
+}
+.gradient1 {
+  background-image: linear-gradient(to right, #ff6e7f, #bfe9ff);
+}
+.gradient2 {
+  background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+}
+.gradient3 {
+    background-image: linear-gradient(to right, #B993D6 , #8CA6DB );
+}
+.centeredDiv {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.gradientHover {
+  background-image: none;
+}
+.gradientHover:hover {
+  background-image: linear-gradient(to right, #ff6e7f, #bfe9ff);
+}
+/* alert customization */
+.yellow {
+  background-color: #fef4e5;
+  border-color: rgb(250 204 21);
+}
+.green {
+  background-color: #edf7ed;
+  border-color: rgb(74 222 128);
+}
+.red {
+  background-color: #fdeded;
+  border-color: rgb(252 165 165);
+}
+
+/* custom shadow */
+.customShadow {
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
