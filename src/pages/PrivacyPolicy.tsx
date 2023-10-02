@@ -1,8 +1,8 @@
 export default function PrivacyPolicy() {
     return (
         <section className="w-[90%] max-w-[1000px] mx-auto">
-            <div className="m-6 text-center">
-            <h3 className="text-2xl my-6">Privacy Policy</h3>
+            <div className="m-6 text-left">
+            <h3 className="text-2xl my-6 text-center">Privacy Policy</h3>
             <p className="font-semibold my-2">Information we collect:</p>
             <p className="my-2">When you create an account, we may collect your name, email address, and password.</p>
             <p className="font-semibold my-2">How We Use Your Information</p>
