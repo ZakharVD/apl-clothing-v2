@@ -5,12 +5,9 @@ import { useModal } from "../hooks/useModal";
 export default function ModalWindow() {
   const { showModal, modalMessage, deactivateModal, callbackFn } = useModal();
 
-  console.log("function to be done",callbackFn);
-
   function onCancelHandler() {
     return deactivateModal();
   }
-
 
   return createPortal(
     <>

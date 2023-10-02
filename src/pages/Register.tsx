@@ -9,6 +9,7 @@ import {
 import { UserCredential } from "firebase/auth";
 import { useAlert } from "../hooks/useAlert";
 import { formatUserName } from "../helpers/formatUsenname";
+import { useLoading } from "../hooks/useLoading";
 
 // creating an object that stores default form fields
 const defaultFormFields = {
@@ -21,9 +22,10 @@ const defaultFormFields = {
 export default function Register() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { userName, email, password, confirmPassword } = formFields;
-  const [checkboxChecked, setCheckboxChecked] = useState(false)
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
   const redirect = useNavigate();
   const { activateAlert } = useAlert();
+  const {setLoading} = useLoading();
 
   // handler function to update the state when input changes
   function onInputChangeHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -33,12 +35,17 @@ export default function Register() {
 
   async function onFormSubmitHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (userName === "" || email === "" || password === "" || confirmPassword === "") {
+    if (
+      userName === "" ||
+      email === "" ||
+      password === "" ||
+      confirmPassword === ""
+    ) {
       activateAlert("Please fill out all fields", "red");
       return;
     }
     if (checkboxChecked === false) {
-      activateAlert("Please agree to the privacy policy", "red")
+      activateAlert("Please agree to the privacy policy", "red");
       return;
     }
     if (password.length < 5) {
@@ -55,24 +62,25 @@ export default function Register() {
     }
     const username = formatUserName(userName);
     try {
+      setLoading(true);
       // login user
-      const data: UserCredential | undefined = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      const data: UserCredential | undefined =
+        await createAuthUserWithEmailAndPassword(email, password);
       if (data === undefined) return;
       // add user to DB
       await createUserDocumentFromAuth(data.user, { username });
+      setLoading(false);
       redirect("/");
       activateAlert("User account created successfully", "green");
     } catch (error) {
+      setLoading(false);
       activateAlert("An unexpected error has occured", "red");
       console.log("error during sign up", error);
     }
   }
 
   function onCheckboxHandler() {
-    setCheckboxChecked(prev => !prev)
+    setCheckboxChecked((prev) => !prev);
   }
 
   return (
@@ -126,18 +134,23 @@ export default function Register() {
             *Password must be at least 6 characters
           </p>
           <div className="flex justify-start">
-          <div className="flex flex-row justify-between items-center">
-            <input type="checkbox" className="mr-3 h-5 w-5" onChange={onCheckboxHandler} checked={checkboxChecked}/>
-            <p className="font-light">
-              I agree to the{" "}
-              <Link
-                to={"/privacy-policy"}
-                className="underline ml-[3px] font-semibold"
-              >
-                Privacy Policy
-              </Link>
-            </p>
-          </div>
+            <div className="flex flex-row justify-between items-center">
+              <input
+                type="checkbox"
+                className="mr-3 h-5 w-5"
+                onChange={onCheckboxHandler}
+                checked={checkboxChecked}
+              />
+              <p className="font-light">
+                I agree to the{" "}
+                <Link
+                  to={"/privacy-policy"}
+                  className="underline ml-[3px] font-semibold"
+                >
+                  Privacy Policy
+                </Link>
+              </p>
+            </div>
           </div>
           <Button text="Sign Up" />
           <div className="mx-[10px] md:mx-[25px]">

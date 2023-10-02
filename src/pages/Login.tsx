@@ -5,6 +5,7 @@ import Button from "../components/shared/Button";
 import { signInUserWithEmailAndPassword } from "../utils/firebase/userData";
 import { AuthError, AuthErrorCodes } from "firebase/auth";
 import { useAlert } from "../hooks/useAlert";
+import { useLoading } from "../hooks/useLoading";
 
 
 const defaultFormFields = {
@@ -17,6 +18,7 @@ export default function Login() {
   const { email, password } = formFields;
   const redirect = useNavigate()
   const { activateAlert } = useAlert();
+  const {setLoading} = useLoading();
  
   // get value from input function
   function onInputChangeHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -31,10 +33,13 @@ export default function Login() {
       return;
     }
     try {
+      setLoading(true);
       await signInUserWithEmailAndPassword(email, password);
       redirect("/")
+      setLoading(false);
       activateAlert("User logged in successfully", "green");
     } catch (error) {
+      setLoading(false);
       switch ((error as AuthError).code) {
         case "auth/user-not-found":
             activateAlert("User with such email does not exist", "red");

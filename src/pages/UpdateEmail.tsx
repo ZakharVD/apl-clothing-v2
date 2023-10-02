@@ -1,15 +1,24 @@
 import { AuthError, AuthErrorCodes, updateEmail } from "firebase/auth";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAlert } from "../hooks/useAlert";
 import Input from "../components/shared/Input";
 import Button from "../components/shared/Button";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoading } from "../hooks/useLoading";
 
 export default function UpdateEmail() {
   const { currentUser } = useCurrentUser();
   const { activateAlert } = useAlert();
   const [email, setEmail] = useState("");
+  const {setLoading} = useLoading();
+  const redirect = useNavigate();
+
+  useEffect(() => {
+    if (currentUser === null) {
+      redirect("/");
+    }
+  }, [currentUser, redirect]);
 
   function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     const value = event.target.value;
@@ -24,10 +33,13 @@ export default function UpdateEmail() {
       }
     if (currentUser !== null) {
       try {
+        setLoading(true);
         await updateEmail(currentUser, email);
         redirect("/dashboard");
+        setLoading(false);
         activateAlert("Email has been successfully updated", "green");
       } catch (error) {
+        setLoading(false);
         switch((error as AuthError).code) {
             case AuthErrorCodes.EMAIL_EXISTS:
                 activateAlert("A user with this email already exists", "red");

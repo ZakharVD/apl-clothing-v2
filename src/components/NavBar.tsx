@@ -11,6 +11,7 @@ import { useFavoriteContext } from "../hooks/useFavoriteContext";
 import { useModal } from "../hooks/useModal";
 import ModalWindow from "./ModalWindow";
 import { useUsername } from "../hooks/useUserName";
+import { useLoading } from "../hooks/useLoading";
 
 export default function NavBar() {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function NavBar() {
   const { activateAlert } = useAlert();
   const { favoriteItems } = useFavoriteContext();
   const { activateModal, deactivateModal } = useModal();
+  const {setLoading} = useLoading();
   const username = useUsername();
 
   const toggleAcc = () => {
@@ -27,12 +29,15 @@ export default function NavBar() {
 
   function logoutUser() {
     try {
+      setLoading(true);
       signOutUser();
+      setLoading(false);
       activateAlert("User logged out successfully", "green");
       setIsAccountOpen(false);
       redirect("/");
       deactivateModal();
     } catch {
+      setLoading(false);
       activateAlert("An unexpected error has occured", "red");
     }
   }

@@ -5,10 +5,12 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { triggerResetEmail } from "../utils/firebase/userData";
 import { AuthError } from "firebase/auth";
 import { useAlert } from "../hooks/useAlert";
+import { useLoading } from "../hooks/useLoading";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const { activateAlert } = useAlert();
+  const {setLoading} = useLoading();
   const redirect = useNavigate();
 
   function onChangeHandler(event: ChangeEvent<HTMLInputElement>) {
@@ -23,10 +25,13 @@ export default function ForgotPassword() {
       return;
     }
     try {
+      setLoading(true);
       await triggerResetEmail(email);
+      redirect("/login");
+      setLoading(false);
       activateAlert("A recovery email has been sent. Please check your inbox.", "green");
-      redirect("/login")
     } catch (error) {
+      setLoading(false);
       switch ((error as AuthError).code) {
         case "auth/user-not-found":
           activateAlert("User with such email does not exist", "red");

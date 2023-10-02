@@ -10,19 +10,23 @@ export default function Products() {
     // handle the error here
     throw new Error();
   }
-  if (typeof category !== 'string') {
+  if (typeof category !== "string") {
     throw new Error();
   }
 
   const products = useProducts(category, gender);
 
   return (
-    <div className="lg:w-[75%] mx-auto flex flex-row justify-center flex-wrap">
+      <div className="lg:w-[75%] mx-auto flex flex-row justify-center flex-wrap min-h-[90vh]">
         {products?.map((product: TItem) => {
-            return (
-                <ProductCard key={product.id} route={`${product.id}`} product={product}/>
-            ) 
+          return (
+            <ProductCard
+              key={product.id}
+              route={`${product.id}`}
+              product={product}
+            />
+          );
         })}
-    </div>
-  )
+      </div>
+  );
 }

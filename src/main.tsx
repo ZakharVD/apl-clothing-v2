@@ -9,23 +9,26 @@ import { CartProvider } from "./store/Cart.context.tsx";
 import { AlertProvider } from "./store/Alert.context.tsx";
 import { FavoriteProvider } from "./store/Favorite.context.tsx";
 import { ModalProvider } from "./store/Modal.context.tsx";
+import { LoadingProvider } from "./store/Loading.context.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <UserProvider>
-        <ProductsProvider>
-          <CartProvider>
-            <FavoriteProvider>
-              <ModalProvider>
-                <AlertProvider>
-                  <App />
-                </AlertProvider>
-              </ModalProvider>
-            </FavoriteProvider>
-          </CartProvider>
-        </ProductsProvider>
-      </UserProvider>
+      <LoadingProvider>
+        <UserProvider>
+          <ProductsProvider>
+            <CartProvider>
+              <FavoriteProvider>
+                <ModalProvider>
+                  <AlertProvider>
+                    <App />
+                  </AlertProvider>
+                </ModalProvider>
+              </FavoriteProvider>
+            </CartProvider>
+          </ProductsProvider>
+        </UserProvider>
+      </LoadingProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

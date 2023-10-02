@@ -12,11 +12,13 @@ import Checkout from "./pages/Checkout";
 import Alert from "./components/Alert";
 import Favorite from "./pages/Favorite";
 import DashboardRoute from "./routes/Dashboard.route";
+import Loading from "./components/Loading";
 
 export default function App() {
    return (
     <>
     <Alert/>
+    <Loading/>
        <Routes>
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home />} />

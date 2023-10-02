@@ -1,10 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { updatePassword } from "firebase/auth";
 import Input from "../components/shared/Input";
 import Button from "../components/shared/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "../hooks/useAlert";
 import { useCurrentUser } from "../hooks/useCurrentUser";
+import { useLoading } from "../hooks/useLoading";
 
 const defaultFormFields = {
   password: "",
@@ -16,7 +17,14 @@ export default function UpdatePassword() {
   const { password, confirmPassword } = formFields;
   const { activateAlert } = useAlert();
   const { currentUser } = useCurrentUser();
+  const {setLoading} = useLoading();
   const redirect = useNavigate();
+
+  useEffect(() => {
+    if (currentUser === null) {
+      redirect("/");
+    }
+  }, [currentUser, redirect]);
 
   function onInputChangeHandler(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -39,10 +47,13 @@ export default function UpdatePassword() {
     }
     if (currentUser !== null) {
         try {
+          setLoading(true)
             await updatePassword(currentUser, password);
             redirect("/dashboard");
+            setLoading(false);
             activateAlert("Password have beed successfully updated", "green");
         } catch (error) {
+          setLoading(false)
             activateAlert("An unexpected error has occured", "red");
         }
     }
