@@ -25,13 +25,13 @@ export default function AccountDropdown({
               </span>
               <Link
                 to={"/dashboard"}
-                className="text-center py-1 px-2 m-1 cursor-pointer hover:bg-black hover:rounded-lg hover:text-white"
+                className="text-center py-3 phone:py-1 px-2 m-1 cursor-pointer bg-black text-white rounded-lg hover:bg-black hover:rounded-lg hover:text-white"
               >
                 My Account
               </Link>
               <span
                 onClick={logout}
-                className="text-center py-1 px-2 m-1 cursor-pointer hover:bg-black hover:rounded-lg hover:text-white"
+                className="text-center py-3 phone:py-1 px-2 m-1 cursor-pointer border-[1px] rounded-lg hover:border-black"
               >
                 Logout
               </span>

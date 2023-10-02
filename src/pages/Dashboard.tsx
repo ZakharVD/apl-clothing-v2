@@ -65,7 +65,7 @@ export default function Dashboard() {
   return (
     <>
       <section>
-        <div className="centeredDiv border-[1px] shadow-md w-[90%] max-w-[400px] h-[600px] mx-auto p-3 rounded-xl flex flex-col">
+        <div className="phone:centeredDiv border-[1px] shadow-md w-[90%] max-w-[400px] h-[600px] mx-auto p-3 rounded-xl flex flex-col">
           <div className="h-[20%] flex flex-col justify-center items-start px-6 bg-slate-200 border-[1px] rounded-lg mb-1">
             <span className="text-[27px] font-light">{username}</span>
             <span className="font-extralight">
